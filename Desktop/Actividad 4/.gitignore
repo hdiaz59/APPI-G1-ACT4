@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+deploy.zip
+.env
+.vscode/
