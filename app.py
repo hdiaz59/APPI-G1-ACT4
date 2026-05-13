@@ -31,6 +31,13 @@ app = dash.Dash(
 server = app.server
 
 # =========================================================
+# VARIABLES GLOBALES
+# =========================================================
+
+modelo = None
+controlador = None
+
+# =========================================================
 # MODELO
 # =========================================================
 
@@ -510,17 +517,28 @@ class ControladorMortalidad:
         return tabla
 
 
+
 # =========================================================
-# INSTANCIAS
+# INICIALIZAR MODELO
 # =========================================================
 
-modelo = ModeloMortalidad()
+def inicializar_modelo():
 
-controlador = ControladorMortalidad(modelo)
+    global modelo
+    global controlador
+
+    if modelo is None:
+
+        modelo = ModeloMortalidad()
+
+        controlador = ControladorMortalidad(
+            modelo
+        )
 
 # =========================================================
 # OPCIONES
 # =========================================================
+inicializar_modelo()
 
 departamentos = ["TODOS"] + sorted(
     modelo.df["DES_DEPARTAMENTO"]
@@ -1060,7 +1078,7 @@ def actualizar_dashboard(
     sexo,
     enfermedad
 ):
-
+    inicializar_modelo()
     df_filtrado = controlador.filtrar_datos(
 
         departamento,
